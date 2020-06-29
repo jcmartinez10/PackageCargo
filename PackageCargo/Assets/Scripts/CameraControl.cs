@@ -13,6 +13,7 @@ public class CameraControl : MonoBehaviour
     public float camSpeed;
     //Zoom of the  camera
     public float zoom;
+    public bool scrollLock;
     //----------------------------------
     //PRIVATE VARIABLES
     //----------------------------------
@@ -27,6 +28,7 @@ public class CameraControl : MonoBehaviour
     // Use this for initialization
     void Start ()
     {
+        scrollLock=false;
         cam = GetComponent<Camera>();
         currentObjective = objective;
 	}
@@ -65,8 +67,10 @@ public class CameraControl : MonoBehaviour
             }
             transform.LookAt(currentObjective);
             //Zoom
-
-            transform.Translate(Vector3.forward * Input.GetAxis("Mouse ScrollWheel") * zoom, Space.Self);
+            if (!scrollLock)
+            {
+                transform.Translate(Vector3.forward * Input.GetAxis("Mouse ScrollWheel") * zoom, Space.Self);
+            }
         }
         catch(System.Exception e)
         {

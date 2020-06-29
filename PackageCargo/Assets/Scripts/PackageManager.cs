@@ -14,7 +14,7 @@ using System.Collections;
 using UnityEngine.Networking;
 using System.Xml;
 using System.Text;
-using UnityEditor;
+//using UnityEditor;
 
 /*
 * This Class is in charge of managing all packages on a container
@@ -145,6 +145,8 @@ public class PackageManager : MonoBehaviour
     public InputField[] UIRunAlgorithm;
     //UI CUrrent container
     public Text[] uiCurrentContainer;
+    //Main Camera
+    public GameObject myCamera;
 
     public Text brokenCounter;
 	public Text fallenCounter;
@@ -241,7 +243,8 @@ public class PackageManager : MonoBehaviour
     }
     // Use this for initialization
     void Start ()
-    {
+    {   
+        Application.targetFrameRate = 60;
         infoPanel.gameObject.SetActive(false);
         errorMessage[0].SetActive(false);
         lastId = 0;
@@ -557,6 +560,7 @@ public class PackageManager : MonoBehaviour
         if(pTypes.Count==0)
         {
             enableMenu(4);
+            myCamera.GetComponent<CameraControl>().scrollLock=false;
             switchEmptyPackUI(true);
             return;
         }
@@ -658,7 +662,9 @@ IEnumerator pruebaResul()
     }
     IEnumerator getExperimentResult(int experimentID,int containerID)
     {
+        myCamera.GetComponent<CameraControl>().scrollLock=false;
         enableMenu(4);
+        
         Debug.Log("Waiting for SQL answer for experiment input");
 
         WWW query = sqlController.getExperimentInput(experimentID, containerID);
@@ -700,7 +706,7 @@ IEnumerator pruebaResul()
         IEnumerator getExperimentInput(int experimentID, int containerID)
         {
             enableMenu(4);
-            
+            myCamera.GetComponent<CameraControl>().scrollLock=false;
             Debug.Log("Waiting for SQL answer for experiment input");
 
             WWW query = sqlController.getExperimentInput(experimentID, containerID);
@@ -1017,6 +1023,7 @@ IEnumerator pruebaResul()
 
     IEnumerator getExperiments()
     {
+        myCamera.GetComponent<CameraControl>().scrollLock=true;
         enableMenu(1);
         
         UnityEngine.Debug.Log("Waiting for SQL answer for experiments");
@@ -1106,6 +1113,7 @@ IEnumerator pruebaResul()
     IEnumerator getContainers(int containerID,bool resizeTrailer)
     {
         enableMenu(4);
+        myCamera.GetComponent<CameraControl>().scrollLock=false;
 
         Debug.Log("Waiting for SQL answer for containers");
 
@@ -1160,6 +1168,13 @@ IEnumerator pruebaResul()
             experimentUIElement[i].SetActive(false);
         }
         experimentUIElement[uiId].SetActive(true);
+    }
+
+    public void closeMenu()
+    {   
+        enableMenu(4);
+        myCamera.GetComponent<CameraControl>().scrollLock=false;
+        experimentUIElement[0].SetActive(false);
     }
 
    
@@ -1360,6 +1375,7 @@ IEnumerator pruebaResul()
                 i++;
             }
             enableMenu(4);
+            myCamera.GetComponent<CameraControl>().scrollLock=false;
             hasAnswer = true;
             switchOkAlgorithmUI(true);
             //loadPackages();
