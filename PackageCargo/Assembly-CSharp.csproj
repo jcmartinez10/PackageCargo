@@ -66,6 +66,7 @@
      <None Include="Assets\Txt\Temp_2_1_1.txt" />
      <None Include="Assets\Txt\temp.txt" />
      <None Include="Assets\Txt\temp 1.txt" />
+     <None Include="Assets\Scripts\StandardDoubleSide.shader" />
      <None Include="Assets\file.txt" />
      <None Include="Assets\Txt\Resultados.txt" />
      <None Include="Assets\Txt\chep.txt" />
